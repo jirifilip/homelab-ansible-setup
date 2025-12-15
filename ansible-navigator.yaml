@@ -1,0 +1,25 @@
+ansible-navigator:
+  ansible:
+    config:
+      path: "./ansible.cfg"
+
+    inventory:
+      entries:
+        - "./inventory/main.yaml"
+
+  execution-environment:
+    enabled: true
+    image: "ghcr.io/jirifilip/learning-ansible-builder:latest"
+    container-options:
+      - "--net=host"
+    volume-mounts:
+      - src: "~/.ssh/id_ed25519"
+        dest: "/runner/.ssh/id_ed25519"
+        options: z
+
+  ansible-runner:
+    artifact-dir: ./.artifacts
+
+  playbook-artifact:
+    enable: true
+    save-as: ./.artifacts/playbook.json
