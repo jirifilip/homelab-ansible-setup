@@ -1,9 +1,3 @@
-- name: Ensure cloud-init is installed
-  become: true
-  ansible.builtin.package:
-    name: cloud-init
-    state: present
-
 - name: Ensure cloud-init directory exists
   become: true
   ansible.builtin.file:
@@ -17,3 +11,8 @@
     dest: "{{ base_path_cloudinit }}/cloud-init.yaml"
   notify: validate_cloud_init
 
+- name: Copy metadata
+  become: true
+  ansible.builtin.template:
+    src: meta-data.yaml.j2
+    dest: "/tmp/meta-data.yaml"

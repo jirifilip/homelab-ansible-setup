@@ -1,0 +1,8 @@
+- name: Start VM
+  community.libvirt.virt:
+    name: test-vm
+    state: running
+    memory: 2048
+    vcpus: 2
+    disks:
+      - name: "{{ base_path_images }}"

@@ -2,5 +2,5 @@
   hosts: homelab
   roles:
     - role: common
-    - role: virtual_machines
+    - role: virtual_machine
 

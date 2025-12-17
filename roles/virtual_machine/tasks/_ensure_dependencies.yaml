@@ -1,0 +1,5 @@
+- name: Ensure cloud-init is installed
+  become: true
+  ansible.builtin.package:
+    name: cloud-init
+    state: present
