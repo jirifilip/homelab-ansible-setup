@@ -1,0 +1,24 @@
+- name: Create cloud-init ISO
+  become: true
+  # Command explanation:
+  # -volid cidata
+  #   => Cloud-init looks for an ISO with volume ID cidata to read user-data and meta-data.
+  # -joliet
+  #   =>  Enables Joliet extensions, which allow filenames longer than the old ISO
+  # -rocky
+  #   => Rock Ridge allows Linux systems to preserve file permissions
+  ansible.builtin.command:
+    cmd: >
+      genisoimage 
+      --output {{ base_path_image_seeds }}/{{ vm_name }}.iso
+      -volid cidata -joliet -rock
+      {{ base_path_cloudinit }}/cloud-init.yaml
+      /tmp/meta-data.yaml
+
+- name: Create VM disk (qcow2 backing file)
+  command: >
+    qemu-img create -f qcow2
+    -b {{ workdir }}/{{ vm_name }}-base.qcow2
+    {{ workdir }}/{{ vm_name }}.qcow2 {{ vm_disk_size }}
+  args:
+    creates: "{{ workdir }}/{{ vm_name }}.qcow2"

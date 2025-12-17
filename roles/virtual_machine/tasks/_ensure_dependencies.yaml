@@ -1,5 +1,16 @@
-- name: Ensure cloud-init is installed
+- name: Ensure dependencies are installed
   become: true
   ansible.builtin.package:
-    name: cloud-init
+    name: "{{ item }}"
     state: present
+  with_items:
+    - "qemu-kvm"
+    - "libvirt-daemon-system"
+    - "libvirt-clients"
+    - "virtinst"
+    - "cloud-init"
+
+- name: Enable KVM service
+  ansible.builtin.service:
+    name: libvirtd
+    state: enabled

@@ -1,2 +1,2 @@
-vm_name: vm-ubuntu-test
+vm_name: "vm-ubuntu-test"
 vm_image_url: ""

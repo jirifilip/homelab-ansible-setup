@@ -10,6 +10,10 @@
   ansible.builtin.import_tasks:
     file: _setup_base_image.yaml
 
-- name: Setup cloud init image
+- name: Create images
   ansible.builtin.import_tasks:
-    file: _setup_cloud_init_image.yaml
+    file: _create_images.yaml
+
+- name: Start the VM
+  ansible.builtin.import_tasks:
+    file: _start_vm.yaml

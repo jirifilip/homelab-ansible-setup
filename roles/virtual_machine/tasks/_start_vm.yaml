@@ -5,4 +5,5 @@
     memory: 2048
     vcpus: 2
     disks:
-      - name: "{{ base_path_images }}"
+      - name: "{{ base_path_images }}/{{ vm_base_name }}"
+        state: running
