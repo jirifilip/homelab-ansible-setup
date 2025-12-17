@@ -12,7 +12,7 @@
       genisoimage 
       --output {{ base_path_image_seeds }}/{{ vm_name }}.iso
       -volid cidata -joliet -rock
-      {{ base_path_cloudinit }}/cloud-init
+      {{ base_path_cloudinit }}/user-data
       /tmp/meta-data
 
 - name: Create VM disk

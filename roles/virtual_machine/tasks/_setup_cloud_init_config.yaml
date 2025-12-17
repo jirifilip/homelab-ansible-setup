@@ -7,8 +7,8 @@
 - name: Copy cloud init template
   become: true
   ansible.builtin.template:
-    src: cloud-init.yaml.j2
-    dest: "{{ base_path_cloudinit }}/cloud-init"
+    src: user-data.yaml.j2
+    dest: "{{ base_path_cloudinit }}/user-data"
   notify: validate_cloud_init
 
 - name: Copy metadata
