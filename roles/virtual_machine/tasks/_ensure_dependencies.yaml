@@ -4,13 +4,12 @@
     name: "{{ item }}"
     state: present
   with_items:
-    - "qemu-kvm"
-    - "libvirt-daemon-system"
-    - "libvirt-clients"
-    - "virtinst"
+    - "@virtualization"
+    - "cockpit"
+    - "cockpit-machines"
     - "cloud-init"
 
 - name: Enable KVM service
   ansible.builtin.service:
     name: libvirtd
-    state: enabled
+    state: started

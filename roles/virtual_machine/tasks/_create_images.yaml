@@ -15,10 +15,10 @@
       {{ base_path_cloudinit }}/cloud-init.yaml
       /tmp/meta-data.yaml
 
-- name: Create VM disk (qcow2 backing file)
+- name: Create VM disk
   command: >
     qemu-img create -f qcow2
-    -b {{ workdir }}/{{ vm_name }}-base.qcow2
-    {{ workdir }}/{{ vm_name }}.qcow2 {{ vm_disk_size }}
+    -b {{ base_path_images }}/{{ vm_base_name }}
+    {{ base_path_images }}/{{ vm_base_name }}.qcow2 3G
   args:
-    creates: "{{ workdir }}/{{ vm_name }}.qcow2"
+    creates: "{{ base_path_images }}/{{ vm_name }}.qcow2"
