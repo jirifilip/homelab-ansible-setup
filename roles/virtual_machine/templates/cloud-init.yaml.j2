@@ -2,7 +2,7 @@
 ssh_pwauth: true
 
 users:
-  - name: ubuntu
+  - name: jirifilip
     sudo: ALL=(ALL) NOPASSWD:ALL
     shell: /bin/bash
     lock_passwd: false
@@ -10,4 +10,5 @@ users:
 chpasswd:
   expire: false
   list: |
-    ubuntu:ubuntu
+    jirifilip:ubuntu
+  plain_text: true

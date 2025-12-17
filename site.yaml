@@ -7,4 +7,5 @@
   hosts: homelab
   roles:
     - role: virtual_machine
-
+  tags:
+    - vm
