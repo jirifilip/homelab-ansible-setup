@@ -1,0 +1,6 @@
+- name: Validate the cloud-init configuration
+  listen: validate_cloud_init
+  become: true
+  ansible.builtin.command: >
+    cloud-init schema --config-file
+    {{ base_path_cloudinit }}/cloud-init.yaml
