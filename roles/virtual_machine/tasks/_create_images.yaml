@@ -12,8 +12,8 @@
       genisoimage 
       --output {{ base_path_image_seeds }}/{{ vm_name }}.iso
       -volid cidata -joliet -rock
-      {{ base_path_cloudinit }}/cloud-init.yaml
-      /tmp/meta-data.yaml
+      {{ base_path_cloudinit }}/cloud-init
+      /tmp/meta-data
   args:
     creates: "{{ base_path_image_seeds }}/{{ vm_name }}.iso"
 
