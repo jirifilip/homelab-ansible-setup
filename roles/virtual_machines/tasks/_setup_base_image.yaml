@@ -1,0 +1,25 @@
+- name: Ensure image directories exists
+  become: true
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ base_path_images }}"
+    - "{{ base_path_image_seeds }}"
+
+- name: Set vm base name
+  ansible.builtin.set_fact:
+    vm_base_name: "{{ vm_image_url | urlsplit('path') | basename }}"
+
+- name: Download image
+  become: true
+  ansible.builtin.get_url:
+    url: "{{ vm_image_url }}"
+    dest: "{{ base_path_images }}/{{ vm_base_name }}"
+
+- name: Duplicate seed for the image
+  become: true
+  ansible.builtin.copy:
+    src: "{{ base_path_images }}/{{ vm_base_name }}"
+    dest: "{{ base_path_image_seeds }}/{{ vm_base_name }}"
+    remote_src: true

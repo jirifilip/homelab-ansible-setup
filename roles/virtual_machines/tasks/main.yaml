@@ -2,3 +2,6 @@
   ansible.builtin.import_tasks:
     file: _setup_cloud_init.yaml
 
+- name: Setup base image
+  ansible.builtin.import_tasks:
+    file: _setup_base_image.yaml
