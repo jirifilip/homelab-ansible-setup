@@ -1,9 +1,10 @@
+- name: Define VM
+  community.libvirt.virt:
+    name: "{{ vm_name }}"
+    command: define
+    xml: "{{ lookup('template', 'kvm_machine.xml.j2') }}"
+
 - name: Start VM
   community.libvirt.virt:
-    name: test-vm
+    name: "{{ vm_name }}"
     state: running
-    memory: 2048
-    vcpus: 2
-    disks:
-      - name: "{{ base_path_images }}/{{ vm_base_name }}"
-        state: running

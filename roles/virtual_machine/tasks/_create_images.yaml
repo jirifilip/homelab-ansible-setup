@@ -14,11 +14,14 @@
       -volid cidata -joliet -rock
       {{ base_path_cloudinit }}/cloud-init.yaml
       /tmp/meta-data.yaml
+  args:
+    creates: "{{ base_path_image_seeds }}/{{ vm_name }}.iso"
 
 - name: Create VM disk
   command: >
-    qemu-img create -f qcow2
+    qemu-img create 
+    -f qcow2 -F qcow2
     -b {{ base_path_images }}/{{ vm_base_name }}
-    {{ base_path_images }}/{{ vm_base_name }}.qcow2 3G
+    {{ base_path_images }}/{{ vm_name }}.qcow2 3G
   args:
     creates: "{{ base_path_images }}/{{ vm_name }}.qcow2"
