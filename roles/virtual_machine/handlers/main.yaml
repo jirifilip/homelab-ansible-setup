@@ -3,5 +3,5 @@
   become: true
   ansible.builtin.command: >
     cloud-init schema --config-file
-    {{ base_path_cloudinit }}/cloud-init
+    {{ base_path_cloudinit }}/user-data
 
