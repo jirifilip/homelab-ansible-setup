@@ -1,3 +1,9 @@
+- name: Ensure cloud-init is installed
+  become: true
+  ansible.builtin.package:
+    name: cloud-init
+    state: present
+
 - name: Ensure cloud-init directory exists
   become: true
   ansible.builtin.file:

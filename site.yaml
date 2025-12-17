@@ -1,5 +1,6 @@
-- name: Run VMs
+- name: Setup Homelab
   hosts: homelab
   roles:
+    - role: common
     - role: virtual_machines
 
