@@ -8,11 +8,14 @@
   become: true
   ansible.builtin.template:
     src: cloud-init.yaml.j2
-    dest: "{{ base_path_cloudinit }}/cloud-init.yaml"
+    dest: "{{ base_path_cloudinit }}/cloud-init"
   notify: validate_cloud_init
 
 - name: Copy metadata
   become: true
   ansible.builtin.template:
     src: meta-data.yaml.j2
-    dest: "/tmp/meta-data.yaml"
+    dest: "/tmp/meta-data"
+
+- name: Flush handlers
+  meta: flush_handlers
