@@ -1,0 +1,2 @@
+base_path_libvirt: "/var/lib/libvirt"
+base_path_cloudinit: "{{ base_path_libvirt }}/cloud-init-config"

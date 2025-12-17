@@ -1,0 +1,9 @@
+- name: Ensure cloud-init directory exists
+  ansible.builtin.file:
+    path: "{{ base_path_cloudinit }}"
+    state: directory
+
+- name: Copy cloud init template
+  ansible.builtin.template:
+    src: cloud-init.yaml.j2
+    dest: "{{ base_path_cloudinit }}/cloud-init.yaml"

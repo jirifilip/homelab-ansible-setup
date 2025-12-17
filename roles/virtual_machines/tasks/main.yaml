@@ -1,0 +1,4 @@
+- name: Setup cloud-init
+  ansible.builtin.import_tasks:
+    file: _setup_cloud_init.yaml
+

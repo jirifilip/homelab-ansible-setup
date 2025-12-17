@@ -1,0 +1,5 @@
+- name: Run VMs
+  hosts: homelab
+  roles:
+    - role: virtual_machines
+
