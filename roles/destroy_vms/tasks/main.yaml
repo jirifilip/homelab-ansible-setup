@@ -1,0 +1,10 @@
+- name: List VMs
+  community.libvirt.virt:
+    command: list_vms
+  register: listed_vms
+
+- name: Destroy VMs
+  community.libvirt.virt:
+    command: undefine
+    name: "{{ item }}"
+  with_items: "{{ listed_vms.list_vms }}"
