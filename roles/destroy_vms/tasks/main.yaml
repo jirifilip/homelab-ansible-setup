@@ -5,6 +5,12 @@
 
 - name: Destroy VMs
   community.libvirt.virt:
+    command: destroy
+    name: "{{ item }}"
+  with_items: "{{ listed_vms.list_vms }}"
+
+- name: Undefine VMs
+  community.libvirt.virt:
     command: undefine
     name: "{{ item }}"
   with_items: "{{ listed_vms.list_vms }}"
