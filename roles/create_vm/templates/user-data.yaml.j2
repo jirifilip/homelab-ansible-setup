@@ -1,15 +1,7 @@
 #cloud-config
-ssh_pwauth: true
-
 users:
   - name: jirifilip
     sudo: ALL=(ALL) NOPASSWD:ALL
     shell: /bin/bash
-    lock_passwd: false
-
-chpasswd:
-  expire: false
-  users:
-    - name: jirifilip
-      password: ubuntu
-      type: text
+    ssh_authorized_keys:
+        - "{{ public_key }}"

@@ -10,6 +10,8 @@
     src: user-data.yaml.j2
     dest: "{{ base_path_cloudinit }}/user-data"
   notify: validate_cloud_init
+  vars:
+    public_key: "{{ lookup('ansible.builtin.file', public_key_path) }}"
 
 - name: Copy metadata
   become: true
