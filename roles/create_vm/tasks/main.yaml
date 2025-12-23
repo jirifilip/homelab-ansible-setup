@@ -1,7 +1,3 @@
-- name: Ensure dependencies
-  ansible.builtin.import_tasks:
-    file: _ensure_dependencies.yaml
-
 - name: Setup cloud-init
   ansible.builtin.import_tasks:
     file: _setup_cloud_init_config.yaml

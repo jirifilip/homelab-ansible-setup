@@ -1,0 +1,12 @@
+- name: Test if Python DNF exists
+  ansible.builtin.command:
+    cmd: "python3 -c 'import dnf'"
+  register: import_python_dnf_result
+  changed_when: false
+  failed_when: false
+
+- name: Ensure Python DNF library is installed
+  become: true
+  when: import_python_dnf_result.rc != 0
+  ansible.builtin.command:
+    cmd: dnf install -y python3-libdnf5
