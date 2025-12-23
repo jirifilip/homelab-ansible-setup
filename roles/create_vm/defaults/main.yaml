@@ -2,3 +2,5 @@ vm_name: "vm-ubuntu-test-123"
 vm_image_url: ""
 
 public_key_path: public_ssh_keys/sysadmin.pub
+
+network_interface: "default"
