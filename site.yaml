@@ -1,7 +1,10 @@
 - name: Setup Homelab
   hosts: homelab
   roles:
-    - role: common
+    - role: install_common
+    - role: install_packer
+  tags:
+    - install
 
 - name: Start VMs
   hosts: homelab
