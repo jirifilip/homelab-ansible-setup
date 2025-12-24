@@ -20,3 +20,11 @@
   tags:
     - never
     - destroy
+
+- name: Install Kubernetes
+  hosts: vms
+  roles:
+    - role: kubernetes_install
+  tags:
+    - never
+    - k8s
