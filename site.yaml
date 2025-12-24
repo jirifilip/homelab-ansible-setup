@@ -27,7 +27,7 @@
 - name: Install Kubernetes
   hosts: vms
   roles:
-    - role: kubernetes_install
+    - role: install_kubernetes
   tags:
     - never
     - k8s
