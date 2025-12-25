@@ -21,5 +21,3 @@
     -f qcow2 -F qcow2
     -b {{ base_path_image_bases }}/{{ vm_base_name }}
     {{ base_path_images }}/{{ vm_name }}.qcow2 {{ disk_size }}
-  args:
-    creates: "{{ base_path_images }}/{{ vm_name }}.qcow2"

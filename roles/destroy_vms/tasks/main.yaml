@@ -14,3 +14,9 @@
     command: undefine
     name: "{{ item }}"
   with_items: "{{ listed_vms.list_vms }}"
+
+- name: Remove disks
+  ansible.builtin.file:
+    name: "{{ base_path_images }}/{{ item }}.qcow2"
+    state: absent
+  with_items: "{{ listed_vms.list_vms }}"
