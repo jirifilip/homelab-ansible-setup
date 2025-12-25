@@ -1,7 +1,7 @@
 <domain type='kvm'>
     <name>{{ vm_name }}</name>
-    <memory unit='MiB'>2048</memory>
-    <vcpu>1</vcpu>
+    <memory unit='MiB'>{{ memory_mb }}</memory>
+    <vcpu>{{ vcpus }}</vcpu>
 
     <os>
       <type arch='x86_64'>hvm</type>

@@ -10,9 +10,10 @@
   hosts: homelab
   roles:
     - role: create_vm
-      vm_name: ubuntu-test-1
+      vm_name: control-plane-1
+      vcpus: 2
     - role: create_vm
-      vm_name: ubuntu-test-2
+      vm_name: worker-1
   tags:
     - create
 
