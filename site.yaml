@@ -17,14 +17,6 @@
   tags:
     - create
 
-- name: Destroy all VMs
-  hosts: homelab
-  roles:
-    - role: destroy_vms
-  tags:
-    - never
-    - destroy
-
 - name: Install Kubernetes
   hosts: vms
   roles:
@@ -32,3 +24,11 @@
   tags:
     - never
     - k8s
+
+- name: Destroy all VMs
+  hosts: homelab
+  roles:
+    - role: destroy_vms
+  tags:
+    - never
+    - destroy
