@@ -1,2 +1,61 @@
-- name: test
-  ansible.builtin.ping:
+- name: Add required Kernel modules
+  community.general.modprobe:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - br_netfilter
+
+- name: Ensure required networking config
+  ansible.posix.sysctl:
+    name: net.ipv4.ip_forward
+    value: '1'
+    sysctl_set: true
+    state: present
+    reload: true
+
+- name: Install CRI
+  ansible.builtin.package:
+    name: containerd
+    state: present
+
+- name: Install kubeadm prerequisites
+  ansible.builtin.package:
+    name:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - gpg
+
+- name: Add Kubernetes signing key
+  ansible.builtin.get_url:
+    url: https://pkgs.k8s.io/core:/stable:/v1.35/deb/Release.key
+    dest: /tmp/kubernetes-release.key
+
+- name: Convert key to GPG keyring
+  command: >
+    gpg --dearmor
+    -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+    /tmp/kubernetes-release.key
+  args:
+    creates: /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+
+- name: Add Kubernetes repo to apt
+  ansible.builtin.copy:
+    content: |
+      deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.35/deb/ /
+    dest: /etc/apt/sources.list.d/kubernetes.list
+
+- name: Install Kubernetes
+  ansible.builtin.package:
+    name:
+      - kubelet
+      - kubeadm
+      - kubectl
+    update_cache: true
+    state: present
+
+- name: Enable kubelet
+  ansible.builtin.service:
+    name: kubelet
+    state: started
+

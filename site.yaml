@@ -34,6 +34,7 @@
     - nat
 
 - name: Install Kubernetes
+  become: true
   hosts: vms
   roles:
     - role: install_kubernetes
