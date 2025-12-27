@@ -11,9 +11,3 @@
   register: vm_ip_address
 
 - debug: var=vm_ip_address
-
-- name: Permit traffic on forwarded SSH ports
-  ansible.posix.firewalld:
-    port: "{{ 2222 + item }}/tcp"
-    state: enabled
-  loop: "{{ range(vm_ip_address.results | length) }}"
