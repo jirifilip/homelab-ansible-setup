@@ -11,10 +11,15 @@
   roles:
     - role: create_vm
       vm_name: control-plane-1
-      vcpus: 2
+      vcpus: 3
+      memory_mb: 4096
+      disk_size: 10G
 
     - role: create_vm
       vm_name: worker-1
+      vcpus: 3
+      memory_mb: 4096
+      disk_size: 10G
   tags:
     - create
 

@@ -8,6 +8,7 @@
     - "cockpit"
     - "cockpit-machines"
     - "cloud-init"
+    - "genisoimage"
     - "python3-lxml"
 
 - name: Enable KVM service
