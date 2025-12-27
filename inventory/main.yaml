@@ -1,6 +1,6 @@
 homelab:
   hosts:
-    homelab-server:
+    homelab-large:
 
 vms:
   hosts:

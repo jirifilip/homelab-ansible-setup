@@ -7,6 +7,7 @@
   community.libvirt.virt:
     command: destroy
     name: "{{ item }}"
+  failed_when: false
   with_items: "{{ listed_vms.list_vms }}"
 
 - name: Undefine VMs
