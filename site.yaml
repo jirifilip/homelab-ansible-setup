@@ -3,6 +3,7 @@
   roles:
     - role: install_common
     - role: install_packer
+    - role: setup_vm_networking
   tags:
     - install
 
@@ -14,12 +15,14 @@
       vcpus: 3
       memory_mb: 4096
       disk_size: 10G
+      network_interface: bridge
 
     - role: create_vm
       vm_name: worker-1
       vcpus: 3
       memory_mb: 4096
       disk_size: 10G
+      network_interface: bridge
   tags:
     - create
 

@@ -1,0 +1,22 @@
+- name: Create bridge
+  community.general.nmcli:
+    type: bridge
+    conn_name: br0
+    ifname: br0
+    state: present
+    autoconnect: false
+
+- name: Connect ethernet to bridge
+  community.general.nmcli:
+    type: ethernet
+    conn_name: eth0-br0
+    ifname: "{{ ethernet_interface_name }}"
+    master: br0
+    slave_type: bridge
+    state: present
+    autoconnect: false
+
+- name: Bring the bridge up
+  community.general.nmcli:
+    conn_name: br0
+    state: up

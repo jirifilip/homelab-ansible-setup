@@ -2,4 +2,6 @@ ansible_host: "10.0.1.39"
 ansible_user: root
 ansible_ssh_private_key_file: "/runner/.ssh/id_ed25519"
 
+ethernet_interface_name: "enp11s0"
+
 vm_image_url: "https://cloud-images.ubuntu.com/noble/current/noble-server-cloudimg-amd64.img"
