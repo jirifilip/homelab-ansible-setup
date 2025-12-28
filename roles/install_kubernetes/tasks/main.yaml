@@ -13,10 +13,25 @@
     state: present
     reload: true
 
-- name: Install CRI
+- name: Install Containerd (CRI)
   ansible.builtin.package:
     name: containerd
     state: present
+
+- name: Create Containerd config directory
+  ansible.builtin.file:
+    path: /etc/containerd/
+    state: directory
+
+- name: Deploy config
+  ansible.builtin.copy:
+    src: containerd.toml
+    dest: /etc/containerd/config.toml
+
+- name: Restart containerd
+  ansible.builtin.service:
+    name: containerd
+    state: restarted
 
 - name: Install kubeadm prerequisites
   ansible.builtin.package:

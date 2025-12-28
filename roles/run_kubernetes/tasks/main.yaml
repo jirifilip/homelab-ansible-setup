@@ -1,0 +1,39 @@
+- name: Reset current Kubernetes deployment
+  loop: "{{ groups['vms'] }}"
+  delegate_to: "{{ item }}"
+  ansible.builtin.command:
+    cmd: kubeadm reset -f
+
+- name: Initialize control plane
+  loop: "{{ groups['control_plane'] }}"
+  delegate_to: "{{ item }}"
+  ansible.builtin.command:
+    cmd: kubeadm init --pod-network-cidr=10.244.0.0/16
+
+- name: Setup .kube directory
+  loop: "{{ groups['control_plane'] }}"
+  delegate_to: "{{ item }}"
+  ansible.builtin.file:
+    path: /root/.kube
+    state: directory
+
+- name: Setup kubectl credentials
+  loop: "{{ groups['control_plane'] }}"
+  delegate_to: "{{ item }}"
+  ansible.builtin.copy:
+    src: /etc/kubernetes/admin.conf
+    dest: /root/.kube/config
+    remote_src: true
+
+- name: Generate joining command
+  loop: "{{ groups['control_plane'] }}"
+  delegate_to: "{{ item }}"
+  ansible.builtin.command:
+    cmd: kubeadm token create --print-join-command
+  register: kubeadm_join_command
+
+- name: Join workers
+  loop: "{{ groups['workers'] }}"
+  delegate_to: "{{ item }}"
+  ansible.builtin.command:
+    cmd: "{{ kubeadm_join_command.results.stdout }}"

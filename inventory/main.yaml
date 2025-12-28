@@ -6,3 +6,11 @@ vms:
   hosts:
     control-plane-1:
     worker-1:
+
+control_plane:
+  hosts:
+    control-plane-1:
+
+workers:
+  hosts:
+    worker-1:
