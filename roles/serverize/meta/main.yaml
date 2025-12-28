@@ -1,0 +1,4 @@
+galaxy_info:
+  description: |
+    Since I'm using old laptops as servers, this role will handle configuring 
+    inconsistencies between laptops and servers, e.g. ignore closing the lid.

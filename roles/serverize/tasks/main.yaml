@@ -1,0 +1,8 @@
+- name: Don't sleep when lid is closed
+  ansible.builtin.lineinfile:
+    path: /usr/lib/systemd/logind.conf
+    regexp: "^#?HandleLidSwitch="
+    line: "HandleLidSwitch=ignore"
+    state: present
+    backup: yes
+  notify: Restart systemd-logind
