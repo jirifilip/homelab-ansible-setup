@@ -4,7 +4,7 @@
     - role: install_common
     - role: install_packer
     - role: serverize
-    - role: setup_vm_networking
+    - role: convert_to_server
   tags:
     - install
 
