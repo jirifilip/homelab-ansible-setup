@@ -1,10 +1,16 @@
+- name: Disable standalone Ethernet connection
+  community.general.nmcli:
+    conn_name: "{{ ethernet_interface_name }}"
+    state: absent
+
 - name: Create bridge
   community.general.nmcli:
     type: bridge
     conn_name: br0
     ifname: br0
     state: present
-    autoconnect: false
+    autoconnect_priority: -100
+    autoconnect: true
 
 - name: Connect ethernet to bridge
   community.general.nmcli:
@@ -14,7 +20,8 @@
     master: br0
     slave_type: bridge
     state: present
-    autoconnect: false
+    autoconnect: true
+    autoconnect_priority: -100
 
 - name: Bring the bridge up
   community.general.nmcli:

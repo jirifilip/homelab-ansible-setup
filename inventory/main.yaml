@@ -4,5 +4,5 @@ homelab:
 
 vms:
   hosts:
-    control-plane:
-    worker1:
+    control-plane-1:
+    worker-1:

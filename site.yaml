@@ -3,8 +3,8 @@
   roles:
     - role: install_common
     - role: install_packer
-    - role: serverize
     - role: convert_to_server
+    - role: setup_vm_networking
   tags:
     - install
 
@@ -27,12 +27,13 @@
   tags:
     - create
 
-- name: NAT VMs
+- name: get VM IPs
   hosts: homelab
   roles:
-    - role: nat_vms
+    - role: get_vm_ip
   tags:
-    - nat
+    - ip
+    - never
 
 - name: Install Kubernetes
   become: true

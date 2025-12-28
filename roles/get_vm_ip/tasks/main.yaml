@@ -1,0 +1,23 @@
+- name: Get list of running VMs
+  community.libvirt.virt:
+    command: list_vms
+    state: running
+  register: running_vms
+
+- name: Get IPV4 from virsh
+  ansible.builtin.shell:
+    cmd: >
+      virsh domifaddr {{ item }} --source agent | 
+      grep 'en.*ipv4' |
+      grep -oP '\d+\.\d+\.\d+\.\d+'
+  loop: "{{ running_vms.list_vms }}"
+  register: vm_ip_address
+
+- name: Write out the IP addresses to inventory
+  loop: "{{ vm_ip_address.results }}"
+  delegate_to: localhost
+  ansible.builtin.lineinfile:
+    path: ./inventory/host_vars/{{ item.item }}.yaml
+    regexp: ^ansible_host
+    line: "ansible_host: {{ item.stdout }}"
+    state: present
