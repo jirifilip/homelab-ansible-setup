@@ -45,7 +45,6 @@
     - k8s
 
 - name: Run Kubernetes
-  become: true
   hosts: localhost
   roles:
     - role: run_kubernetes

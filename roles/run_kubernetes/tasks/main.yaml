@@ -1,16 +1,19 @@
 - name: Reset current Kubernetes deployment
+  become: true
   loop: "{{ groups['vms'] }}"
   delegate_to: "{{ item }}"
   ansible.builtin.command:
     cmd: kubeadm reset -f
 
 - name: Initialize control plane
+  become: true
   loop: "{{ groups['control_plane'] }}"
   delegate_to: "{{ item }}"
   ansible.builtin.command:
     cmd: kubeadm init --pod-network-cidr=10.244.0.0/16
 
 - name: Setup .kube directory
+  become: true
   loop: "{{ groups['control_plane'] }}"
   delegate_to: "{{ item }}"
   ansible.builtin.file:
@@ -18,6 +21,7 @@
     state: directory
 
 - name: Setup kubectl credentials
+  become: true
   loop: "{{ groups['control_plane'] }}"
   delegate_to: "{{ item }}"
   ansible.builtin.copy:
@@ -25,7 +29,17 @@
     dest: /root/.kube/config
     remote_src: true
 
+- name: Create Flannel network
+  become: true
+  loop: "{{ groups['control_plane'] }}"
+  delegate_to: "{{ item }}"
+  ansible.builtin.command:
+    cmd: >
+      kubectl apply -f
+      https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml
+
 - name: Generate joining command
+  become: true
   loop: "{{ groups['control_plane'] }}"
   delegate_to: "{{ item }}"
   ansible.builtin.command:
@@ -33,7 +47,9 @@
   register: kubeadm_join_command
 
 - name: Join workers
+  become: true
   loop: "{{ groups['workers'] }}"
   delegate_to: "{{ item }}"
   ansible.builtin.command:
-    cmd: "{{ kubeadm_join_command.results.stdout }}"
+    cmd: "{{ kubeadm_join_command.results[0].stdout }}"
+
