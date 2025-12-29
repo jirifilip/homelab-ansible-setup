@@ -13,6 +13,13 @@
   loop: "{{ running_vms.list_vms }}"
   register: vm_ip_address
 
+- name: Ensure VM inventory file exists
+  loop: "{{ running_vms.list_vms }}"
+  delegate_to: localhost
+  ansible.builtin.file:
+    path: ./inventory/host_vars/{{ item }}.yaml
+    state: touch
+
 - name: Write out the IP addresses to inventory
   loop: "{{ vm_ip_address.results }}"
   delegate_to: localhost

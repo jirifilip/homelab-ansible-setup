@@ -6,6 +6,7 @@ vms:
   hosts:
     control-plane-1:
     worker-1:
+    worker-2:
 
 control_plane:
   hosts:
@@ -14,3 +15,4 @@ control_plane:
 workers:
   hosts:
     worker-1:
+    worker-2:

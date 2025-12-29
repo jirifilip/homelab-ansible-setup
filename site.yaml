@@ -20,8 +20,15 @@
 
     - role: create_vm
       vm_name: worker-1
-      vcpus: 3
-      memory_mb: 4096
+      vcpus: 2
+      memory_mb: 2048
+      disk_size: 10G
+      network_interface: bridge
+
+    - role: create_vm
+      vm_name: worker-2
+      vcpus: 2
+      memory_mb: 2048
       disk_size: 10G
       network_interface: bridge
   tags:
