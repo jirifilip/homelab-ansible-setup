@@ -17,6 +17,10 @@ ansible-navigator:
         dest: "/runner/.ssh/id_ed25519"
         options: z
 
+      - src: "~/.kube"
+        dest: "/runner/.kube"
+        options: z
+
   ansible-runner:
     artifact-dir: ./.artifacts
 

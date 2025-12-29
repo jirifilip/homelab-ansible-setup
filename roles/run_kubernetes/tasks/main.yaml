@@ -29,6 +29,14 @@
     dest: /root/.kube/config
     remote_src: true
 
+- name: Fetch kubectl credentials
+  become: true
+  delegate_to: control-plane-1
+  ansible.builtin.fetch:
+    src: /etc/kubernetes/admin.conf
+    dest: /runner/.kube/config
+    flat: true
+
 - name: Create Flannel network
   become: true
   loop: "{{ groups['control_plane'] }}"
