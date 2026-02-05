@@ -1,5 +1,6 @@
 - name: Get PCI devices
-  ansible.builtin.command: lspci -nn
+  ansible.builtin.command:
+    cmd: lspci -nn
   register: lspci_output
 
 - name: Find GPU devices
@@ -9,8 +10,52 @@
         lspci_output.stdout_lines
         | select("search", "VGA compatible controller")
         | reject("search", "Intel Corporation")
-        | map("regex_search", "[0-9a-fA-F]{4}:[0-9a-fA-F]{4}")
+        | map("regex_search", "^[0-9a-f:.]+")
         | list
       }}
 
-- debug: var=vfio_gpu_ids
+- name: Get IOMMU group devices
+  ansible.builtin.command:
+    ls /sys/bus/pci/devices/0000:{{ item }}/iommu_group/devices
+  register: iommu_output
+  loop: "{{ vfio_gpu_ids }}"
+
+- name: Set IOMMU groups
+  ansible.builtin.set_fact:
+    iommu_groups: >-
+      {{
+        iommu_output.results
+        | map(attribute="stdout_lines")
+        | flatten
+        | unique
+      }}
+
+- name: Extract PCI IDs
+  ansible.builtin.command:
+    cmd: "lspci -nns {{ item }}"
+  loop: "{{ iommu_groups }}"
+  register: pci_ids_output
+
+- name: Set PCI IDs
+  ansible.builtin.set_fact:
+    pci_ids: >- 
+      {{
+        pci_ids_output.results
+        | map(attribute="stdout_lines")
+        | flatten
+        | map("regex_search", "[0-9a-fA-F]{4}:[0-9a-fA-F]{4}")
+        | list
+      }}
+    
+- name: Configure GPU virtualization
+  ansible.builtin.copy:
+    dest: /etc/modprobe.d/vfio.conf
+    content: |
+      options vfio-pci ids={{ pci_ids | join(",") }}
+
+- name: Enable IOMMU in GRUB
+  ansible.builtin.lineinfile:
+    path: /etc/default/grub
+    regexp: "^GRUB_CMDLINE_LINUX="
+    line: 'GRUB_CMDLINE_LINUX="rd.lvm.lv=fedora/root rhgb quiet intel_iommu=on iommu=pt"'
+  notify: update_grub

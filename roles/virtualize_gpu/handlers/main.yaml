@@ -1,0 +1,8 @@
+- name: Update Grub
+  command: grub2-mkconfig -o /boot/grub2/grub.cfg
+  listen: update_grub
+  notify: reboot_host
+
+- name: Reboot host
+  ansible.builtin.reboot:
+  listen: reboot_host
