@@ -8,6 +8,13 @@
   tags:
     - install
 
+- name: Virtualize GPU
+  hosts: homelab
+  roles:
+    - role: virtualize_gpu
+  tags:
+    - virtualize-gpu
+
 - name: Start VMs
   hosts: homelab
   roles:

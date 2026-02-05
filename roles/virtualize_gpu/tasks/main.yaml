@@ -1,0 +1,16 @@
+- name: Get PCI devices
+  ansible.builtin.command: lspci -nn
+  register: lspci_output
+
+- name: Find GPU devices
+  ansible.builtin.set_fact:
+    vfio_gpu_ids: >-
+      {{
+        lspci_output.stdout_lines
+        | select("search", "VGA compatible controller")
+        | reject("search", "Intel Corporation")
+        | map("regex_search", "[0-9a-fA-F]{4}:[0-9a-fA-F]{4}")
+        | list
+      }}
+
+- debug: var=vfio_gpu_ids
