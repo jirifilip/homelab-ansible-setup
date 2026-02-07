@@ -53,6 +53,14 @@
     - ip
     - never
 
+- name: Setup GPU workers
+  become: true
+  hosts: gpu-workers
+  roles:
+    - role: nvidia.nvidia_driver
+  tags:
+    - setup-gpu-workers
+
 - name: Install Kubernetes
   become: true
   hosts: vms
