@@ -1,21 +1,17 @@
 - name: Setup Homelab
   hosts: homelab
+  become: true
   roles:
     - role: install_common
     - role: install_packer
     - role: convert_to_server
     - role: setup_vm_networking
+    - role: virtualize_gpu
   tags:
     - install
 
-- name: Virtualize GPU
-  hosts: homelab
-  roles:
-    - role: virtualize_gpu
-  tags:
-    - virtualize-gpu
-
 - name: Start VMs
+  become: true
   hosts: homelab
   roles:
     - role: create_vm
@@ -38,6 +34,14 @@
       memory_mb: 2048
       disk_size: 10G
       network_interface: bridge
+
+    - role: create_vm
+      vm_name: gpu-worker-1
+      vcpus: 4
+      memory_mb: 4096
+      disk_size: 10G
+      network_interface: bridge
+      use_gpu: true
   tags:
     - create
 

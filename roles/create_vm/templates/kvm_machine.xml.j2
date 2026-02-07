@@ -41,7 +41,7 @@
                 domain='0x0000'
                 bus='0x{{ gpu_device.split(":")[0] }}'
                 slot='0x{{ gpu_device.split(":")[1].split(".")[0] }}'
-                function='0x{{ gpu_device.split(".")'
+                function='0x{{ gpu_device.split(".")[1] }}'
             />
           </source>
       </hostdev>
