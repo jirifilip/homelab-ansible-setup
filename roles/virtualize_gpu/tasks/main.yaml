@@ -53,9 +53,24 @@
     content: |
       options vfio-pci ids={{ pci_ids | join(",") }}
 
+- name: Blacklist nouveau driver
+  ansible.builtin.copy:
+    dest: /etc/modprobe.d/blacklist-nouveau.conf
+    content: |
+      blacklist nouveau
+      options nouveau modeset=0
+  notify: rebuilt_initramfs
+
+- name: Put vfio drivers on initramfs
+  ansible.builtin.copy:
+    dest: /etc/dracut.conf.d/vfio.conf
+    content: |
+      add_drivers+=" vfio vfio_iommu_type1 vfio_pci "
+  notify: rebuilt_initramfs
+
 - name: Enable IOMMU in GRUB
   ansible.builtin.lineinfile:
     path: /etc/default/grub
     regexp: "^GRUB_CMDLINE_LINUX="
-    line: 'GRUB_CMDLINE_LINUX="rd.lvm.lv=fedora/root rhgb quiet intel_iommu=on iommu=pt"'
+    line: 'GRUB_CMDLINE_LINUX="rd.lvm.lv=fedora/root rhgb quiet intel_iommu=on iommu=pt rd.driver.pre=vfio-pci"'
   notify: update_grub

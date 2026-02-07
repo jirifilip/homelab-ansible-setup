@@ -3,6 +3,12 @@
   listen: update_grub
   notify: reboot_host
 
+- name: Rebuilt initramfs
+  ansible.builtin.command:
+    cmd: dracut -f
+  listen: rebuilt_initramfs
+  notify: reboot_host
+
 - name: Reboot host
   ansible.builtin.reboot:
   listen: reboot_host
