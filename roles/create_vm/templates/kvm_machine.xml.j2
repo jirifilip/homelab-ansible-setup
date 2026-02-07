@@ -32,6 +32,22 @@
         <target type='serial' port='0'/>
       </console>
 
+      {% if use_gpu %}
+      {% for gpu_device in gpu_devices %}
+      <hostdev mode='subsystem' type='pci' managed='yes'>
+          <driver name='vfio'/>
+          <source>
+            <address
+                domain='0x0000'
+                bus='0x{{ gpu_device.split(":")[0] }}'
+                slot='0x{{ gpu_device.split(":")[1].split(".")[0] }}'
+                function='0x{{ gpu_device.split(".")'
+            />
+          </source>
+      </hostdev>
+      {% endfor %}
+      {% endif %}
+
       <channel type='unix'>
         <source mode='bind'/>
         <target type='virtio' name='org.qemu.guest_agent.0'/>

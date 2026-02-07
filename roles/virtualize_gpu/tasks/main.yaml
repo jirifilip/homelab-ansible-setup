@@ -74,3 +74,19 @@
     regexp: "^GRUB_CMDLINE_LINUX="
     line: 'GRUB_CMDLINE_LINUX="rd.lvm.lv=fedora/root rhgb quiet intel_iommu=on iommu=pt rd.driver.pre=vfio-pci"'
   notify: update_grub
+
+- name: Save Device IDs for running with KVM
+  delegate_to: localhost
+  ansible.builtin.copy:
+    dest: ./inventory/group_vars/all/gpu.yaml
+    content: |
+      gpu_devices: {{
+        pci_ids_output.results
+        | map(attribute="stdout_lines")
+        | flatten
+        | map("regex_search", "^[0-9a-f:.]+")
+        | list
+        | to_yaml
+        | indent(2)
+        | trim
+      }}

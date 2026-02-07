@@ -7,3 +7,4 @@ network_interface: "default"
 disk_size: 8G
 memory_mb: 2048
 vcpus: 1
+use_gpu: false
