@@ -58,6 +58,7 @@
   hosts: gpu-workers
   roles:
     - role: nvidia.nvidia_driver
+    - role: setup_gpu_containerization
   tags:
     - setup-gpu-workers
 
