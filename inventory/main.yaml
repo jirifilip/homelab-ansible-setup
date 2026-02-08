@@ -7,6 +7,7 @@ vms:
     control-plane-1:
     worker-1:
     worker-2:
+    gpu-worker-1:
 
 control_plane:
   hosts:

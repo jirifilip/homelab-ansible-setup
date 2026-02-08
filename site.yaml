@@ -53,15 +53,6 @@
     - ip
     - never
 
-- name: Setup GPU workers
-  become: true
-  hosts: gpu-workers
-  roles:
-    - role: nvidia.nvidia_driver
-    - role: setup_gpu_containerization
-  tags:
-    - setup-gpu-workers
-
 - name: Install Kubernetes
   become: true
   hosts: vms
@@ -69,6 +60,17 @@
     - role: install_kubernetes
   tags:
     - never
+    - k8s-install
+    - k8s
+
+- name: Setup GPU workers
+  become: true
+  hosts: gpu-workers
+  roles:
+    - role: nvidia.nvidia_driver
+    - role: setup_gpu_containerization
+  tags:
+    - k8s-gpu
     - k8s
 
 - name: Run Kubernetes
@@ -77,7 +79,7 @@
     - role: run_kubernetes
   tags:
     - never
-    - k8s
+    - k8s-run
 
 - name: Destroy all VMs
   hosts: homelab

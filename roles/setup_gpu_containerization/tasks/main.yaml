@@ -1,0 +1,26 @@
+- name: Get Nvidia container toolkit repo key
+  ansible.builtin.get_url:
+    url: https://nvidia.github.io/libnvidia-container/gpgkey
+    dest: /etc/apt/keyrings/libnvidia-container.asc
+
+- name: Put Nvidia repo into apt repositories
+  ansible.builtin.apt_repository:
+    repo: "deb [signed-by=/etc/apt/keyrings/libnvidia-container.asc] https://nvidia.github.io/libnvidia-container/stable/deb/$(ARCH) /"
+    state: present
+    filename: nvidia-container-toolkit
+
+- name: Install Nvidia container toolkit
+  ansible.builtin.package:
+    name: nvidia-container-toolkit
+    update_cache: true
+    state: present
+
+- name: Configure containerd with nvidia toolkit
+  ansible.builtin.command:
+    cmd: nvidia-ctk runtime configure --runtime=containerd
+    creates: /etc/containerd/conf.d/99-nvidia.toml
+
+- name: Restart containerd
+  ansible.builtin.service:
+    name: containerd
+    state: restarted
