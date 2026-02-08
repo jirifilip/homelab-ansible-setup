@@ -80,6 +80,7 @@
   tags:
     - never
     - k8s-run
+    - k8s
 
 - name: Destroy all VMs
   hosts: homelab
